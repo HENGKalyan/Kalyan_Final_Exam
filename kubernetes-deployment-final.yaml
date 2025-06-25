@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kalyan-terrain-deployment
+  labels:
+    app: kalyan-terrain-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kalyan-terrain-app
+  template:
+    metadata:
+      labels:
+        app: kalyan-terrain-app
+    spec:
+      containers:
+      # Web Server Container - NGINX + PHP 8.2+
+      - name: web-server
+        image: nginx:alpine
+        ports:
+        - containerPort: 8080
+        - containerPort: 22
+        
+      # MySQL Database Container  
+      - name: mysql-database
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "Hello@123"
+        - name: MYSQL_DATABASE
+          value: "kalyan-db"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kalyan-terrain-service
+spec:
+  selector:
+    app: kalyan-terrain-app
+  ports:
+  - name: web
+    port: 8080
+    targetPort: 8080
+    nodePort: 32080
+  - name: ssh
+    port: 22
+    targetPort: 22
+    nodePort: 32024
+  type: NodePort
