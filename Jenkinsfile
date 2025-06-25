@@ -89,6 +89,7 @@ pipeline {
 
                 env.DEVELOPER_EMAIL = lastCommitEmail
             }
+            cleanWs()
         }
 
         failure {
@@ -119,10 +120,6 @@ pipeline {
                 to: "${env.DEVELOPER_EMAIL}",
                 from: "jenkins@devops-exam.local"
             )
-        }
-
-        always {
-            cleanWs()
         }
     }
 }
