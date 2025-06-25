@@ -17,7 +17,7 @@ spec:
       containers:
       # Web Server Container - NGINX + PHP 8.2+
       - name: web-server
-        image: nginx:alpine
+        image: webdevops/php-nginx:8.2-alpine
         ports:
         - containerPort: 8080
         - containerPort: 22
@@ -44,9 +44,9 @@ spec:
   - name: web
     port: 8080
     targetPort: 8080
-    nodePort: 32080
+    nodePort: 32085
   - name: ssh
     port: 22
     targetPort: 22
-    nodePort: 32024
+    nodePort: 32026
   type: NodePort
